@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI Skill Gap Analyzer</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: linear-gradient(
+                135deg,
+                #eef2ff,
+                #f5f3ff
+            );
+
+            color: #1f2937;
+
+        }
+
+        .header {
+
+            background: #4f46e5;
+
+            color: white;
+
+            padding: 20px 50px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+        .logo {
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+        }
+
+        .hero {
+
+            max-width: 1100px;
+
+            margin: 60px auto;
+
+            padding: 20px;
+
+            text-align: center;
+
+        }
+
+        .hero h1 {
+
+            font-size: 48px;
+
+            margin-bottom: 15px;
+
+            color: #312e81;
+
+        }
+
+        .hero p {
+
+            font-size: 19px;
+
+            color: #64748b;
+
+            max-width: 700px;
+
+            margin: auto;
+
+            line-height: 1.6;
+
+        }
+
+        .form-card {
+
+            background: white;
+
+            max-width: 650px;
+
+            margin: 40px auto;
+
+            padding: 35px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.10);
+
+            text-align: left;
+
+        }
+
+        label {
+
+            display: block;
+
+            font-weight: bold;
+
+            margin-top: 20px;
+
+            margin-bottom: 8px;
+
+        }
+
+        input[type="file"] {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: 2px dashed #c7d2fe;
+
+            border-radius: 10px;
+
+            background: #f8fafc;
+
+        }
+
+        select {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+
+            background: white;
+
+        }
+
+        button {
+
+            width: 100%;
+
+            margin-top: 30px;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+        button:hover {
+
+            background: #4338ca;
+
+        }
+
+        .features {
+
+            max-width: 1000px;
+
+            margin: 30px auto 70px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+            padding: 20px;
+
+        }
+
+        .feature {
+
+            background: white;
+
+            padding: 25px;
+
+            text-align: center;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.07);
+
+        }
+
+        .feature-icon {
+
+            font-size: 35px;
+
+        }
+
+        .feature h3 {
+
+            color: #312e81;
+
+        }
+
+        .footer {
+
+            text-align: center;
+
+            padding: 25px;
+
+            background: #312e81;
+
+            color: white;
+
+        }
+
+        @media(max-width: 700px) {
+
+            .header {
+
+                padding: 20px;
+
+            }
+
+            .hero h1 {
+
+                font-size: 34px;
+
+            }
+
+            .features {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="header">
+
+    <div class="logo">
+
+        🤖 AI Skill Gap Analyzer
+
+    </div>
+
+    <div>
+
+        {% if session.get("user_id") %}
+
+            {% if session.get("user_id") %}
+
+    <span style="margin-right: 15px;">
+        👋 {{ session.get("user_name") }}
+    </span>
+
+ <a href="/dashboard"
+   style="
+   color: white;
+   text-decoration: none;
+   font-weight: bold;
+   margin-right: 20px;
+   ">
+    📊 Dashboard
+</a>
+</a>
+    <a href="/history"
+       style="
+       color: white;
+       text-decoration: none;
+       font-weight: bold;
+       margin-right: 20px;
+       ">
+
+        📚 History
+
+    </a>
+
+<a href="/logout"
+   onclick="return confirm('Are you sure you want to logout?');">
+    Logout
+</a>
+
+{% else %}
+
+    <a href="/login"
+       style="
+       color: white;
+       text-decoration: none;
+       font-weight: bold;
+       margin-right: 20px;
+       ">
+
+        Login
+
+    </a>
+
+    <a href="/register"
+       style="
+       color: white;
+       text-decoration: none;
+       font-weight: bold;
+       ">
+
+        Register
+
+    </a>
+
+{% endif %}
+        {% else %}
+
+            <a href="/login"
+               style="
+               color: white;
+               text-decoration: none;
+               font-weight: bold;
+               margin-right: 20px;
+               ">
+
+                Login
+
+            </a>
+
+            <a href="/register"
+               style="
+               color: white;
+               text-decoration: none;
+               font-weight: bold;
+               ">
+
+                Register
+
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+    <div class="hero">
+
+        <h1>
+
+            Discover Your Skill Gap
+
+        </h1>
+
+        <p>
+
+            Upload your resume and select your target job.
+            Our analyzer will identify your skills,
+            find skill gaps and create a personalized
+            learning plan.
+
+        </p>
+
+
+        <div class="form-card">
+
+           {% if session.get("user_id") %}
+            <form
+                action="/analyze"
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                <label>
+
+                    📄 Upload Your Resume
+
+                </label>
+
+                <input
+                    type="file"
+                    name="resume"
+                    accept=".pdf"
+                    required
+                >
+
+
+                <label>
+
+                    🎯 Select Your Target Job
+
+                </label>
+
+                <select name="job" required>
+
+                    <option value="Frontend Developer">
+
+                        Frontend Developer
+
+                    </option>
+
+                    <option value="Python Developer">
+
+                        Python Developer
+
+                    </option>
+
+                    <option value="Data Analyst">
+
+                        Data Analyst
+
+                    </option>
+
+                    <option value="Embedded Engineer">
+
+                        Embedded Engineer
+
+                    </option>
+
+                    <option value="AI/ML Engineer">
+
+                        AI/ML Engineer
+
+                    </option>
+
+                </select>
+
+
+                <button type="submit">
+
+                    🚀 Analyze My Skills
+
+                </button>
+
+            </form>
+{% else %}
+
+<div style="
+    background: white;
+    padding: 35px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+">
+
+    <h2>🔐 Login Required</h2>
+
+    <p>
+        Please register and login before analyzing your skills.
+    </p>
+
+    <a href="/register"
+       style="
+       display: inline-block;
+       padding: 12px 22px;
+       background: #4f46e5;
+       color: white;
+       text-decoration: none;
+       border-radius: 8px;
+       margin: 5px;
+       font-weight: bold;
+       ">
+        Register
+    </a>
+
+    <a href="/login"
+       style="
+       display: inline-block;
+       padding: 12px 22px;
+       background: #16a34a;
+       color: white;
+       text-decoration: none;
+       border-radius: 8px;
+       margin: 5px;
+       font-weight: bold;
+       ">
+        Login
+    </a>
+
+</div>
+
+{% endif %}
+
+        </div>
+
+    </div>
+
+
+    <div class="features">
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+
+                📄
+
+            </div>
+
+            <h3>
+
+                Resume Analysis
+
+            </h3>
+
+            <p>
+
+                Extract information and skills
+                from your resume PDF.
+
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+
+                📊
+
+            </div>
+
+            <h3>
+
+                Skill Gap Detection
+
+            </h3>
+
+            <p>
+
+                Compare your skills with
+                the requirements of your target job.
+
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+
+                📚
+
+            </div>
+
+            <h3>
+
+                Learning Plan
+
+            </h3>
+
+            <p>
+
+                Get recommendations for
+                skills you need to improve.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer">
+
+        AI Skill Gap Analyzer © 2026
+
+    </div>
+
+
+</body>
+
+</html>

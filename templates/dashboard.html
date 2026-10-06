@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Dashboard - AI Skill Gap Analyzer</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+            color: #1f2937;
+        }
+
+        .header {
+            background: #4f46e5;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            color: #312e81;
+            margin-top: 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .icon {
+            font-size: 35px;
+        }
+
+        .number {
+            font-size: 38px;
+            font-weight: bold;
+            color: #4f46e5;
+            margin: 10px 0;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .analysis-item {
+            padding: 18px;
+            margin-top: 15px;
+            background: #f8fafc;
+            border-left: 5px solid #4f46e5;
+            border-radius: 10px;
+        }
+
+        .job {
+            font-size: 19px;
+            font-weight: bold;
+            color: #312e81;
+        }
+
+        .score {
+            font-size: 25px;
+            font-weight: bold;
+            color: #4f46e5;
+            margin-top: 8px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 13px 22px;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            border-radius: 9px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .button:hover {
+            background: #4338ca;
+        }
+
+        @media(max-width: 700px) {
+
+            .header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+        }
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: #4f46e5;
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <div class="logo">
+
+        🤖 AI Skill Gap Analyzer
+
+    </div>
+
+    <div>
+
+        <a href="/">Home</a>
+
+        <a href="/history">History</a>
+
+        <a href="/logout"
+   onclick="return confirm('Are you sure you want to logout?');">
+    Logout
+</a>
+
+    </div>
+
+</div>
+
+
+<div class="container">
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h1>
+
+            👋 Welcome, {{ session.get("user_name") }}
+
+        </h1>
+
+        <p>
+
+            Here's an overview of your skill gap analysis activity.
+
+        </p>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="icon">
+
+                📚
+
+            </div>
+
+            <div class="number">
+
+                {{ total_analyses }}
+
+            </div>
+
+            <p>
+
+                Total Analyses
+
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="icon">
+
+                📊
+
+            </div>
+
+            <div class="number">
+
+                {{ average_score }}%
+
+            </div>
+
+            <p>
+
+                Average Skill Match
+
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="icon">
+
+                🎯
+
+            </div>
+
+            <div class="number">
+
+                {{ latest_job }}
+
+            </div>
+
+            <p>
+
+                Latest Target Job
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- RECENT ANALYSES -->
+
+    <div class="section">
+
+        <h2>
+
+            📈 Recent Analyses
+
+        </h2>
+
+
+        {% if recent_analyses %}
+
+            {% for item in recent_analyses %}
+
+                <div class="analysis-item">
+
+                    <div class="job">
+
+                        🎯 {{ item[2] }}
+
+                    </div>
+
+                    <div class="score">
+
+                        {{ item[3] }}% Skill Match
+
+                    </div>
+
+                    <p>
+
+                        🕒 {{ item[6] }}
+
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>
+
+                No analyses yet. Upload a resume to get started.
+
+            </p>
+
+        {% endif %}
+        </div>
+
+<div class="section">
+
+    <h2>📊 Skill Match Progress</h2>
+
+    {% if recent_analyses %}
+
+        {% for item in recent_analyses %}
+
+            <div style="margin-top: 20px;">
+
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    font-weight: bold;
+                    margin-bottom: 8px;
+                ">
+
+                    <span>{{ item[2] }}</span>
+
+                    <span>{{ item[3] }}%</span>
+
+                </div>
+
+                <div style="
+                    width: 100%;
+                    height: 18px;
+                    background: #e5e7eb;
+                    border-radius: 10px;
+                    overflow: hidden;
+                ">
+                <div
+    class="progress-fill"
+    style="width: {{ item[3] }}%;">
+</div>
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>No skill analysis data available yet.</p>
+
+    {% endif %}
+
+</div>
+        {% if session.get("is_admin") == 1 %}
+    <a href="/history"
+       class="button"
+       style="background: #f59e0b;">
+        👑 View All Users
+    </a>
+{% endif %}
+
+<a class="button" href="/">
+    🚀 Analyze Resume
+</a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

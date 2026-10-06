@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Skill Analysis Results</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+            color: #1f2937;
+        }
+
+        .header {
+            background: #4f46e5;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .score {
+            text-align: center;
+        }
+
+        .score-number {
+            font-size: 55px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .progress {
+            width: 100%;
+            height: 30px;
+            background: #e5e7eb;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #4f46e5;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill {
+            padding: 10px 15px;
+            border-radius: 20px;
+            background: #eef2ff;
+            color: #3730a3;
+            font-weight: bold;
+        }
+
+        .missing {
+            background: #fff1f2;
+            color: #be123c;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            flex: 1;
+            min-width: 200px;
+            padding: 25px;
+            text-align: center;
+            border-radius: 15px;
+            background: #f8fafc;
+        }
+
+        .stat-number {
+            font-size: 35px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .analysis {
+            background: #eef2ff;
+            padding: 20px;
+            border-radius: 12px;
+            line-height: 1.7;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 25px;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .button:hover {
+            background: #4338ca;
+        }
+
+        @media(max-width: 700px) {
+
+            .container {
+                margin: 20px auto;
+                padding: 10px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="header">
+
+    <h1>🤖 AI Skill Gap Analyzer</h1>
+
+    <p>Skill Analysis Dashboard</p>
+
+    <div style="margin-top: 15px;">
+
+        <a href="/"
+           style="color: white; margin: 0 10px; text-decoration: none;">
+            Home
+        </a>
+
+        <a href="/dashboard"
+           style="color: white; margin: 0 10px; text-decoration: none;">
+            📊 Dashboard
+        </a>
+
+        <a href="/history"
+           style="color: white; margin: 0 10px; text-decoration: none;">
+            📚 History
+        </a>
+
+    </div>
+
+</div>
+
+<div class="container">
+
+
+    <!-- JOB -->
+
+    <div class="card">
+
+        <h2>🎯 Target Job</h2>
+
+        <h3>{{ job }}</h3>
+
+    </div>
+
+
+    <!-- SCORE -->
+
+    <div class="card score">
+
+        <h2>📊 Overall Skill Match</h2>
+
+        <div class="score-number">
+
+            {{ match_percentage }}%
+
+        </div>
+
+        <div class="progress">
+
+<div class="progress-bar">
+    <span>{{ match_percentage }}%</span>
+</div>
+
+        </div>
+
+    </div>
+
+
+    <!-- STEP 12 VISUALIZATION -->
+
+    <div class="card">
+
+        <h2>📈 Skill Gap Visualization</h2>
+
+        <br>
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <div class="stat-number">
+
+                    {{ skills_found|length }}
+
+                </div>
+
+                <p>✅ Skills Found</p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-number">
+
+                    {{ missing_skills|length }}
+
+                </div>
+
+                <p>⚠️ Skills Missing</p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-number">
+
+                    {{ job_skills|length }}
+
+                </div>
+
+                <p>🎯 Required Skills</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+<div class="section">
+
+    <h2>📋 Skill Gap Summary</h2>
+
+    <div style="
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+    ">
+
+        <div style="
+            background: #ecfdf5;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        ">
+
+            <div style="font-size: 32px;">✅</div>
+
+            <h3>Skills You Have</h3>
+
+            <div style="
+                font-size: 32px;
+                font-weight: bold;
+            ">
+                {{ skills_found|length }}
+            </div>
+
+        </div>
+
+
+        <div style="
+            background: #fef2f2;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        ">
+
+            <div style="font-size: 32px;">❌</div>
+
+            <h3>Skills Missing</h3>
+
+            <div style="
+                font-size: 32px;
+                font-weight: bold;
+            ">
+                {{ missing_skills|length }}
+            </div>
+
+        </div>
+
+
+        <div style="
+            background: #eef2ff;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        ">
+
+            <div style="font-size: 32px;">🎯</div>
+
+            <h3>Match Score</h3>
+
+            <div style="
+                font-size: 32px;
+                font-weight: bold;
+            ">
+                {{ match_percentage }}%
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- SKILLS YOU HAVE -->
+
+<div class="card">
+
+    <h2>✅ Skills You Have</h2>
+
+    {% if skills_found %}
+
+        <div class="skills">
+
+            {% for skill in skills_found %}
+
+                <div class="skill">
+
+                    {{ skill }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p style="
+            color: #6b7280;
+            font-size: 16px;
+        ">
+            No matching skills were detected in your resume.
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+    <!-- MISSING SKILLS -->
+
+    <div class="card">
+
+        <h2>⚠️ Skills You Need</h2>
+
+        <div class="skills">
+
+            {% for skill in missing_skills %}
+
+                <div class="skill missing">
+
+                    {{ skill }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- AI ANALYSIS -->
+
+    <div class="card">
+
+        <h2>🤖 AI Analysis</h2>
+
+        <div class="analysis">
+
+            {{ analysis }}
+
+        </div>
+
+    </div>
+
+
+    <!-- LEARNING PLAN -->
+
+    <div class="card">
+
+        <h2>📚 Personalized Learning Plan</h2>
+
+        <div class="analysis">
+
+            {% for skill, recommendation in recommendations.items() %}
+
+                <h3>{{ skill }}</h3>
+
+                <p>{{ recommendation }}</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- PDF -->
+
+    <div class="card">
+
+        <h2>📄 Download Report</h2>
+
+        <a class="button"
+           href="/download_report?job={{ job }}&score={{ match_percentage }}&skills={{ skills_found|join(',') }}&missing={{ missing_skills|join(',') }}">
+
+            Download PDF Report
+
+        </a>
+
+    </div>
+
+
+    <div style="text-align:center;">
+
+        <a class="button" href="/">
+
+            ← Analyze Another Resume
+
+        </a>
+
+    </div>
+
+
+<script>
+    document.querySelector(".progress-bar").style.width = "{{ match_percentage }}%";
+</script>
+</div>
+
+</body>
+
+</html>
